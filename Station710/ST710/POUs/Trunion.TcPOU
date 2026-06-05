@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="Trunion" Id="{607f9d21-e892-4fcb-9fa0-ace9a2515a6a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Trunion
+VAR_INPUT
+	EN   : BOOL;
+	iStart0    		:  BOOL;    // Clockwise Move Command 
+	iStart20   		:  BOOL;    // Counterclockwise Move Command 
+	iStart45    	:  BOOL;    // Clockwise Move Command 
+	iStart80   		:  BOOL;    // Counterclockwise Move Command 
+	i0PosSensor  	:  BOOL;    // Forward Position sensor 180* feedback
+	i20PosSensor  	:  BOOL;    // Forward Position sensor 0* feedback
+	i45PosSensor  	:  BOOL;    // Forward Position sensor 180* feedback
+	i80PosSensor  	:  BOOL;    // Forward Position sensor 0* feedback
+END_VAR
+VAR_OUTPUT
+	Eno  : BOOL;
+	qMotor0 	 :  BOOL ; 	// Motor Run Status
+	qMotor20  	:  BOOL ;    // Motor Direction Status 
+	qMotor45 	 :  BOOL ; 	// Motor Run Status
+	qMotor80  	:  BOOL ;    // Motor Direction Status 
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// TRUNION OPERATION
+IF iStart0 AND NOT i0PosSensor THEN
+		qMotor0  := TRUE;
+	ELSIF iStart20 AND NOT i20PosSensor THEN
+		qMotor20 := TRUE;
+	ELSIF iStart45 AND NOT i45PosSensor THEN
+		qMotor45 := TRUE;
+	ELSIF iStart80 AND NOT i80PosSensor THEN
+		qMotor80 := TRUE;
+	ELSE qMotor0 := FALSE;
+		 qMotor20 := FALSE;
+		 qMotor45 := FALSE;
+		 qMotor80 := FALSE;
+	END_IF	
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="Trunion">
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="64" Count="3" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

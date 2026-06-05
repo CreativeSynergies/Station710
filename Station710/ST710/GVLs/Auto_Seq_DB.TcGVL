@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Auto_Seq_DB" Id="{d25f83c5-d1fc-4b9a-9f55-f9fd38211094}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	MHomeCycleStart		:BOOL;
+	MWELD_RobotStart	:BOOL;
+	M_MH_RobotStart		:BOOL;
+	MCycleRun			:BOOL;
+	MRollerDoor_CLOSE	:BOOL;
+	MRollerDoor_Open	:BOOL;
+	MTrunion_Move_0		:BOOL;
+	MTrunion_Move_20	:BOOL;
+	MTrunion_Move_45	:BOOL;
+	MTrunion_Move_80	:BOOL;
+	MClampClsGroup1		:BOOL;
+	MClampClsGroup2		:BOOL;
+	MTurntable_0		:BOOL;
+	MTurntable_180		:BOOL;
+	MClampOpenGrp1		:BOOL;
+	MClampOpenGrp2		:BOOL;
+	MStep				:INT;
+	Part_Sensor1		:BOOL;
+	Part_Sensor2		:BOOL;
+	Part_Sensor3		:BOOL;
+	Part_Sensor4		:BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="Alarms" Id="{02538e69-d13e-41ce-8d5c-a30d95973840}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Alarms
+VAR_INPUT
+	EN : BOOL;
+END_VAR
+VAR_OUTPUT
+		ENO : BOOL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Reset All Alarms
+IF Inputs.iResetFault THEN
+	Alarm_DB.EMR_Stop_pressed := FALSE;
+	Stn710_DB.Alarm_count := 0;
+END_IF
+
+//EMERGENCY STOP ALARM
+IF Inputs.iEMR_Stop_PB THEN
+	Alarm_DB.EMR_Stop_pressed := TRUE;
+	Stn710_DB.Alarm_count := 1;
+END_IF
+
+IF Stn710_DB.CC1_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 2;
+END_IF
+
+IF Stn710_DB.CC1_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 3;
+END_IF
+
+IF Stn710_DB.CC1_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 4;
+END_IF
+
+IF Stn710_DB.CC1_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 5;
+END_IF
+
+IF Stn710_DB.CC2_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 6;
+END_IF
+
+IF Stn710_DB.CC2_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 7;
+END_IF
+
+IF Stn710_DB.CC2_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 8;
+END_IF
+
+IF Stn710_DB.CC2_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 9;
+END_IF
+
+IF Stn710_DB.CC3_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 10;
+END_IF
+
+IF Stn710_DB.CC3_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 11;
+END_IF
+
+IF Stn710_DB.CC3_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 12;
+END_IF
+
+IF Stn710_DB.CC3_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 13;
+END_IF
+
+IF Stn710_DB.CC4_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 14;
+END_IF
+
+IF Stn710_DB.CC4_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 15;
+END_IF
+
+IF Stn710_DB.CC4_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 16;
+END_IF
+
+IF Stn710_DB.CC4_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 17;
+END_IF
+
+IF Stn710_DB.CC5_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 18;
+END_IF
+
+IF Stn710_DB.CC5_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 19;
+END_IF
+
+IF Stn710_DB.CC5_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 20;
+END_IF
+
+IF Stn710_DB.CC5_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 21;
+END_IF
+
+IF Stn710_DB.CC6_CLAMP.ErrHomeInterlock THEN
+	Stn710_DB.Alarm_count := 22;
+END_IF
+
+IF Stn710_DB.CC6_CLAMP.ErrHomeTout THEN
+	Stn710_DB.Alarm_count := 23;
+END_IF
+
+IF Stn710_DB.CC6_CLAMP.ErrWorkInterlock THEN
+	Stn710_DB.Alarm_count := 24;
+END_IF
+
+IF Stn710_DB.CC6_CLAMP.ErrWorkTout THEN
+	Stn710_DB.Alarm_count := 25;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="Alarms">
+      <LineId Id="17" Count="9" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="34" Count="2" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="38" Count="2" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="46" Count="14" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="62" Count="14" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="78" Count="14" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="94" Count="14" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="110" Count="14" />
+      <LineId Id="109" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

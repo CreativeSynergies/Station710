@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Outputs" Id="{10def864-a7ea-4dcc-b0d7-d440467e206e}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	CC1_CLAMPING_UNIT1_3_WP			: BOOL ;
+	CC1_CLAMPING_UNIT1_3_HP			: BOOL ;
+	CC2_CLAMPING_UNIT2_3_WP			: BOOL ;
+	CC2_CLAMPING_UNIT2_3_HP			: BOOL ;
+	CC3_CLAMPING_UNIT3_3_WP			: BOOL ;
+	CC3_CLAMPING_UNIT3_3_HP			: BOOL ;
+	CC4_CLAMPING_UNIT4_3_WP			: BOOL ;
+	CC4_CLAMPING_UNIT4_3_HP			: BOOL ;
+	CC5_CLAMPING_UNIT5_1_WP			: BOOL ;
+	CC5_CLAMPING_UNIT5_1_HP			: BOOL ;
+	CC6_CLAMPING_UNIT6_1_WP			: BOOL ;
+	CC6_CLAMPING_UNIT6_1_HP			: BOOL ;
+	qPower_On						: BOOL ;
+	qStnAuto						: BOOL ;
+	qStnMan							: BOOL ;
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

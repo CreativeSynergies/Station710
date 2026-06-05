@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Stn710_DB" Id="{3907e39f-093c-4b69-8d7e-2ad23eeb86ee}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	M_TT_MotorRun  : BOOL;
+	M_TT_MotorDir  : BOOL;
+	M_TT_CW		   : BOOL;
+	M_TT_CCW		: BOOL;
+	M_TT_FwdSens	: BOOL;
+	M_TT_RevSens	: BOOL;
+	M_TR_Motor0  	: BOOL;
+	M_TR_Motor20  	: BOOL;
+	M_TR_Motor45  	: BOOL;
+	M_TR_Motor80  	: BOOL;
+	M_TR_0_FB		: BOOL;
+	M_TR_20_FB		: BOOL;
+	M_TR_45_FB		: BOOL;
+	M_TR_80_FB		: BOOL;
+	M_TR_0_CMD		: BOOL;
+	M_TR_20_CMD		: BOOL;
+	M_TR_45_CMD		: BOOL;
+	M_TR_80_CMD		: BOOL;
+	MQ_DR_UP	  	: BOOL;
+	MQ_DR_DOWN  	: BOOL;
+	M_DR_UP		   	: BOOL;
+	M_DR_DOWN		: BOOL;
+	M_DR_UPSens		: BOOL;
+	M_DR_DNSens		: BOOL;
+	MH_RobotHome	: BOOL;
+	MH_RobotBusy	: BOOL;
+	MH_RobotDone	: BOOL;
+	WELD_RobotHome	: BOOL;
+	WELD_RobotBusy	: BOOL;
+	WELD_RobotDone	: BOOL;
+	Alarm_count : INT;
+	CC1_CLAMP : Cyl_Module_DUT;
+	CC2_CLAMP : Cyl_Module_DUT;
+	CC3_CLAMP : Cyl_Module_DUT;
+	CC4_CLAMP : Cyl_Module_DUT;
+	CC5_CLAMP : Cyl_Module_DUT;
+	CC6_CLAMP : Cyl_Module_DUT;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

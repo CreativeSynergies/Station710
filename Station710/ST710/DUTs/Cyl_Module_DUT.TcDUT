@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="Cyl_Module_DUT" Id="{6410059f-6435-4125-8b24-0a16a74373a9}">
+    <Declaration><![CDATA[TYPE Cyl_Module_DUT :
+STRUCT
+	ResetFaults:BOOL;//Reset Fault CMD
+    WorkCmd:BOOL ;//Cyl Work Postion CMD
+    HomeCmd:BOOL ;//Cyl Home Postion CMD
+    WorkSen:BOOL ;// Cyl Work Postion Input
+    HomeSen:BOOL ;// Cyl Home Postion Input
+    WorkCleartoMove:BOOL ;// Condition Healthy then 1
+    HomeCleartoMove:BOOL ;// Condition Healthy then 1
+    TimeoutValue:TIME ;// Time Required E.gT#500MS,T#2S
+	ENO   : BOOL; //  Block Enable
+	WorkSol    : BOOL; // Cyl Work Position Sol Output
+    HomeSol: BOOL; //Cyl Home Position Sol Output
+    WorkOver: BOOL; // Cyl AT Work Position
+    HomeOver: BOOL; //Cyl AT Home Position
+    ErrHomeInterlock: BOOL; //homeCleartoMove is low AND home command is active.
+    ErrHomeTout: BOOL; //cylinder did NOT reachhome position within definedTIME
+    ErrWorkInterlock: BOOL; //WorkCleartoMove is low AND work command is active.
+    ErrWorkTout: BOOL; //cylinder did NOT reachwork position within definedtime
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

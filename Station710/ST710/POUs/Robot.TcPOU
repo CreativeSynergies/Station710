@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="Robot" Id="{07ec3510-0392-4579-9d5c-d04799bdbf20}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Robot
+VAR_INPUT
+	EN				:BOOL;
+	iStartPB		:BOOL;
+	iEMR_Stop		:BOOL;
+END_VAR
+VAR_OUTPUT
+	ENO				: BOOL;
+	RobotHOME		: BOOL;
+	RobotBusy		:BOOL;
+	RobotDone		:BOOL;
+END_VAR
+VAR
+	MH_Time		:TON;
+	StepNo		:INT;
+	MHProgramNo	:INT;
+	RobotStart	:BOOL;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF iEMR_Stop THEN 
+StepNo := 0;	
+END_IF
+
+CASE StepNo OF
+0:   RobotHOME := TRUE;
+     RobotBusy := FALSE;
+	 MH_Time(IN :=FALSE);
+	 RobotDone := FALSE;
+    IF iStartPB AND NOT iEMR_Stop THEN
+       StepNo := 10;
+    END_IF;
+
+10:
+    MHProgramNo := 1;
+	RobotBusy := TRUE;
+	RobotHOME := FALSE;
+    StepNo := 20;
+
+20:
+	MH_Time(IN := TRUE, PT :=T#5S);
+   IF MH_Time.Q THEN
+		RobotDone := TRUE; 
+		RobotStart := FALSE; 
+		RobotBusy := FALSE;
+		StepNo := 30;
+    END_IF;
+
+30:
+    IF RobotDone THEN
+       StepNo := 0;
+    END_IF;
+
+END_CASE;]]></ST>
+    </Implementation>
+    <LineIds Name="Robot">
+      <LineId Id="10" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="2" />
+      <LineId Id="21" Count="10" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="39" Count="4" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

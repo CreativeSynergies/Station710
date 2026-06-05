@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="PowerOn" Id="{b732c427-247d-4a1e-854c-17af1c115c65}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PowerOn
+VAR_INPUT
+	iControl_on  	: BOOL;
+	iControl_off    : BOOL;
+	iAuto_Man 		: BOOL;
+	iEMRSTOP		: bool;
+END_VAR
+VAR_OUTPUT
+	 ENO    : BOOL;
+	qPower_On	 : BOOL;
+	qStnAuto	 :BOOL;
+	qStnMan  	 : BOOL;
+END_VAR
+VAR	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Control ON Logic
+IF iControl_On AND NOT iControl_off AND (Stn710_DB.Alarm_count = 0 OR Stn710_DB.Alarm_count > 1)  THEN
+	qPower_On := TRUE;	
+	ELSE
+	qPower_On := FALSE;
+END_IF
+
+// Auto Logic
+IF qPower_On AND NOT iAuto_Man THEN
+	qStnAuto := TRUE;
+	qStnMan := FALSE;
+	ELSE
+	qStnAuto := FALSE;	
+END_IF
+// Manual Logic
+IF qPower_On AND iAuto_Man THEN
+	qStnMan := TRUE;
+	qStnAuto := FALSE;
+	
+	ELSE
+	qStnMan := FALSE;	
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="PowerOn">
+      <LineId Id="9" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="48" Count="3" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="54" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="Auto_Sequence" Id="{1cfec1d8-3bf3-46f5-8420-2915463fc03e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Auto_Sequence
+VAR_INPUT
+	EN				:BOOL;
+	iStartPB		:BOOL;
+	iHomeDone		:BOOL;
+	iAutoMode		:BOOL;
+	iRobotsReady	:BOOL;
+	iRD_Close_FB	:BOOL;
+	iRD_Open_FB		:BOOL;
+	iTR_0_FB		:BOOL;
+	iTR_20_FB		:BOOL;
+	iTR_45_FB		:BOOL;
+	iTR_80_FB		:BOOL;
+	iPalm_Button	:BOOL;
+	iGrp1ClampCls_FB :BOOL;
+	iGrp2ClampCls_FB :BOOL;
+	iClampOpenGroup1 :BOOL;
+	iClampOpenGroup2 :BOOL;
+	iTT_0_FB		:BOOL;
+	iTT_180_FB		:BOOL;
+	iWELD_complete	:BOOL;
+	iMH_Robotcomplete	:BOOL;
+
+END_VAR
+VAR_OUTPUT
+	ENO					:BOOL;
+	qHomeCycleStart 	:BOOL;
+	WELD_RobotStart		:BOOL;
+	MH_RobotStart		:BOOL;
+	CycleRun			:BOOL;
+	RollerDoor_CLOSE	:BOOL;
+	RollerDoor_Open		:BOOL;
+	Trunion_Move_20		:BOOL;
+	Trunion_Move_0		:BOOL;
+	Trunion_Move_45		:BOOL;
+	Trunion_Move_80		:BOOL;
+	ClampClsGroup1		:BOOL;
+	ClampClsGroup2		:BOOL;
+	Turntable_0			:BOOL;
+	Turntable_180		:BOOL;
+	ClampOpenGrp1		:BOOL;
+	ClampOpenGrp2		:BOOL;
+	Step				:INT;
+	Part_Sensor1		:BOOL;
+	Part_Sensor2		:BOOL;
+	Part_Sensor3		:BOOL;
+	Part_Sensor4		:BOOL;
+END_VAR
+VAR
+	StartPulse		: R_TRIG;
+	StepNo			: INT;
+	RD_CLOSE1		:BOOL;
+	RD_CLOSE2		:BOOL;
+	RD_CLOSE3		:BOOL;
+	RD_OPEN1		:BOOL;
+	RD_OPEN2		:BOOL;
+	RD_OPEN3		:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[    StartPulse(CLK := iStartPB);
+	RollerDoor_CLOSE := RD_CLOSE1 OR RD_CLOSE2 OR RD_CLOSE3;
+	RollerDoor_Open := RD_OPEN1 OR RD_OPEN2 OR RD_OPEN3;
+	Step := StepNo;
+	
+	
+// Step reset logic
+IF NOT iAutoMode THEN
+	StepNo := 0;
+	RD_CLOSE1 := FALSE;
+	WELD_RobotStart := FALSE;
+	MH_RobotStart := FALSE;
+	qHomeCycleStart := FALSE;
+	Trunion_Move_20:=FALSE;
+	RD_OPEN1 := FALSE;
+	Trunion_Move_80 := FALSE;
+	RD_OPEN2 := FALSE;
+	RD_CLOSE3 := FALSE;
+	Turntable_180 := FALSE;
+	Trunion_Move_0:= FALSE;
+	ClampClsGroup1 := FALSE;
+	ClampClsGroup2 := FALSE;
+	RD_OPEN3 := FALSE;
+	Trunion_Move_45 := FALSE;
+END_IF
+
+
+IF iAutoMode THEN 
+
+    StartPulse(CLK := iStartPB);
+	
+    CASE StepNo OF
+// CYCLE START
+
+    0:
+        WELD_RobotStart := FALSE;
+		MH_RobotStart := FALSE;
+
+        IF  iStartPB AND iRobotsReady THEN
+			StepNo := 5;
+        END_IF;
+		
+// Call Home Cycle
+
+    5:
+      qHomeCycleStart := TRUE;
+
+        IF iHomeDone THEN
+			qHomeCycleStart := FALSE;
+            StepNo := 10;
+        END_IF;
+		
+// RD_CLOSE
+
+    10:
+        RD_CLOSE1 := TRUE;
+
+        IF iRD_Close_FB THEN
+			RD_CLOSE1 := FALSE;
+            StepNo := 20;
+        END_IF;
+		
+// TRUNION
+
+    20:
+        Trunion_Move_20 := TRUE;
+
+        IF iTR_20_FB THEN
+			Trunion_Move_20:=FALSE;
+            StepNo := 30;
+        END_IF;
+		
+// RD_OPEN
+
+    30:
+        RD_OPEN1 := TRUE;
+
+        IF iRD_Open_FB THEN
+            StepNo := 40;
+			RD_OPEN1 := FALSE;
+        END_IF;
+
+// Operator Load_1ST PART
+
+    40:
+         Part_Sensor1 := TRUE;
+	   IF  Part_Sensor1 AND iPalm_Button THEN
+            StepNo := 50;
+        END_IF;
+
+// Operator Load_2ND PART
+
+     50:
+		Part_Sensor2 := TRUE;
+	   IF Part_Sensor2 AND iPalm_Button THEN
+            StepNo := 60;
+        END_IF;
+		
+// Clamp Close_1ST,3RD,5TH
+
+    60:
+        ClampClsGroup1 := TRUE;
+        IF iGrp1ClampCls_FB THEN
+            StepNo := 70;
+        END_IF;
+		
+// RD_CLOSE
+
+    70:
+        RD_CLOSE2 := TRUE;
+    	ClampClsGroup1 := FALSE;
+        IF iGrp1ClampCls_FB AND iRD_Close_FB THEN
+            StepNo := 80;
+        END_IF;
+
+// TRUNION
+
+
+    80:
+        Trunion_Move_80 := TRUE;
+        RD_CLOSE2 := FALSE;
+        IF iTR_80_FB THEN
+			Trunion_Move_80 := FALSE;
+            StepNo := 90;
+        END_IF;
+
+// RD_OPEN-0
+
+
+    90:
+        RD_OPEN2 := TRUE;
+       IF iRD_Open_FB THEN
+			RD_OPEN2 := FALSE;
+            StepNo := 100;
+        END_IF;
+
+// Operator Load_3RD_PART
+
+    100:
+       Part_Sensor3 := TRUE ;
+	   IF Part_Sensor3 AND iPalm_Button THEN
+            StepNo := 110;
+        END_IF;
+
+// Operator Load_4TH_PART
+
+    110:
+		Part_Sensor4 := TRUE;
+	   IF Part_Sensor4 AND iPalm_Button THEN
+            StepNo := 120;
+        END_IF;
+
+// RD_CLOSE-0
+
+    120:
+        RD_CLOSE3 := TRUE;
+        IF iRD_Close_FB THEN
+			RD_CLOSE3 := FALSE;
+            StepNo := 130;
+        END_IF;
+
+//  CLAMP CLOSE 2ND,4TH, 6TH
+
+
+    130:
+	 ClampClsGroup2 := TRUE;
+	 IF iGrp2ClampCls_FB THEN
+		StepNo := 140;
+        END_IF;
+
+// TURNTABLE-180* AND TRUNION_0*
+
+
+    140: 
+		ClampClsGroup2 := FALSE;
+		Trunion_Move_0:= TRUE;
+		Turntable_180 := TRUE;
+		
+		IF iTT_180_FB AND iTR_0_FB THEN
+			Turntable_180 := FALSE;
+			Trunion_Move_0:= FALSE;
+			StepNo := 150;
+		END_IF;
+   
+// Start WELD_Robot
+
+    150:
+        WELD_RobotStart := TRUE;
+
+        IF iWELD_complete THEN
+            WELD_RobotStart := FALSE;
+            StepNo := 160;
+        END_IF;
+
+// CLAMP OPEN 1ST,3RD,5TH
+
+    160:
+        CycleRun := TRUE;
+		ClampOpenGrp1 := TRUE;
+        IF  iClampOpenGroup1 THEN
+	    ClampOpenGrp1 := FALSE;
+		StepNo := 170;
+        END_IF;
+
+// RD_OPEN
+	
+	170: 
+        RD_OPEN3 := TRUE;
+        
+        IF RollerDoor_Open THEN
+			RD_OPEN3 := FALSE;
+            StepNo := 180;
+        END_IF;
+
+// Start MH_Robot_1ST
+
+    180:
+        MH_RobotStart := TRUE;
+		Part_Sensor1 := FALSE;
+        Part_Sensor2 := FALSE;
+        IF iMH_Robotcomplete AND NOT Part_Sensor1 AND NOT Part_Sensor2  THEN
+            MH_RobotStart := FALSE;
+            StepNo := 190;
+        END_IF;
+
+// TRUNION_45
+
+	 190:
+        Trunion_Move_45 := TRUE;
+     	RD_CLOSE3 := FALSE;
+        IF iTR_45_FB THEN
+			Trunion_Move_45 := FALSE;
+            StepNo := 200;
+        END_IF;
+    
+// Start UNCLAMP 2ND, 4TH,6TH
+		
+    200:
+        CycleRun := TRUE;
+		ClampOpenGrp2 := TRUE;
+        IF iClampOpenGroup2 THEN
+	    ClampOpenGrp2 := FALSE;
+            StepNo := 210;
+        END_IF;
+
+// Start MH_Robot_2ND
+
+		
+     210:
+        MH_RobotStart := TRUE;
+		Part_Sensor3 := FALSE;
+		Part_Sensor4 := FALSE;
+        IF iMH_Robotcomplete AND NOT Part_Sensor3 AND NOT Part_Sensor4 THEN
+            MH_RobotStart := FALSE;
+            StepNo := 220;
+        END_IF;
+// -----------------------------------
+    // Cycle Finish
+    // -----------------------------------
+
+    220:
+        CycleRun := FALSE;
+        
+        StepNo := 0;
+
+    END_CASE;
+
+END_IF;
+]]></ST>
+    </Implementation>
+    <LineIds Name="Auto_Sequence">
+      <LineId Id="632" Count="2" />
+      <LineId Id="637" Count="0" />
+      <LineId Id="630" Count="0" />
+      <LineId Id="856" Count="1" />
+      <LineId Id="631" Count="0" />
+      <LineId Id="851" Count="0" />
+      <LineId Id="858" Count="10" />
+      <LineId Id="875" Count="0" />
+      <LineId Id="874" Count="0" />
+      <LineId Id="870" Count="0" />
+      <LineId Id="872" Count="0" />
+      <LineId Id="852" Count="0" />
+      <LineId Id="854" Count="0" />
+      <LineId Id="853" Count="0" />
+      <LineId Id="615" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="618" Count="0" />
+      <LineId Id="629" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="18" Count="3" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="34" Count="7" />
+      <LineId Id="791" Count="0" />
+      <LineId Id="782" Count="7" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="790" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="45" Count="7" />
+      <LineId Id="334" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="9" />
+      <LineId Id="67" Count="2" />
+      <LineId Id="75" Count="6" />
+      <LineId Id="85" Count="4" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="2" />
+      <LineId Id="98" Count="2" />
+      <LineId Id="373" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="104" Count="2" />
+      <LineId Id="109" Count="3" />
+      <LineId Id="375" Count="0" />
+      <LineId Id="374" Count="0" />
+      <LineId Id="115" Count="15" />
+      <LineId Id="132" Count="4" />
+      <LineId Id="138" Count="2" />
+      <LineId Id="390" Count="4" />
+      <LineId Id="396" Count="1" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="402" Count="4" />
+      <LineId Id="408" Count="11" />
+      <LineId Id="587" Count="0" />
+      <LineId Id="423" Count="0" />
+      <LineId Id="426" Count="6" />
+      <LineId Id="590" Count="0" />
+      <LineId Id="646" Count="0" />
+      <LineId Id="720" Count="0" />
+      <LineId Id="719" Count="0" />
+      <LineId Id="643" Count="1" />
+      <LineId Id="721" Count="0" />
+      <LineId Id="717" Count="0" />
+      <LineId Id="645" Count="0" />
+      <LineId Id="442" Count="0" />
+      <LineId Id="446" Count="0" />
+      <LineId Id="448" Count="7" />
+      <LineId Id="458" Count="1" />
+      <LineId Id="461" Count="3" />
+      <LineId Id="467" Count="1" />
+      <LineId Id="471" Count="3" />
+      <LineId Id="476" Count="7" />
+      <LineId Id="487" Count="1" />
+      <LineId Id="490" Count="19" />
+      <LineId Id="511" Count="0" />
+      <LineId Id="513" Count="3" />
+      <LineId Id="519" Count="1" />
+      <LineId Id="523" Count="20" />
+      <LineId Id="298" Count="4" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

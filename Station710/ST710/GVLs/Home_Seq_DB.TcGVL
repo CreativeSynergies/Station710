@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Home_Seq_DB" Id="{19cc2f80-a007-4d5d-b787-b04a9682f174}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	M_Group1ClampOpen :BOOL;
+	M_Group2ClampOpen :BOOL;
+	M_TT_0 : BOOL;
+	M_Trunion_0 : BOOL;
+	M_Door_Cls : BOOL;
+	M_HomeDone : Bool;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

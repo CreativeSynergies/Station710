@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Alarm_DB" Id="{bd7cb15b-827d-48a9-8314-62eb6e528a76}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	EMR_Stop_pressed : BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

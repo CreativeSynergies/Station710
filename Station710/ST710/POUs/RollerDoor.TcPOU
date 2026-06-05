@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="RollerDoor" Id="{1ed1661f-21eb-4959-a6e2-faf2ecc3555f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC RollerDoor
+VAR_INPUT
+	EN   : BOOL;
+	iDoorUP    		:  BOOL;    // Clockwise Move Command 
+	iDoorDOWN   	:  BOOL;    // Counterclockwise Move Command 
+	iUPPosSensor  	:  BOOL;    // Forward Position sensor 180* feedback
+	iDownPosSensor  :  BOOL;    // Forward Position sensor 0* feedback
+END_VAR
+VAR_OUTPUT
+	Eno  : BOOL;
+	qDoorUP		 	:  BOOL ; 	// Motor Run Status
+	qDoorDown	  	:  BOOL ;    // Motor Direction Status 
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Door Safety
+IF  iDoorUP AND iDoorDOWN THEN
+	qDoorUP 	:= FALSE;
+	qDoorDown 	:= FALSE;
+END_IF
+
+//DOOR operation
+	IF iDoorUP AND NOT iUPPosSensor THEN
+		qDoorUP := TRUE;
+	ELSIF iDoorDOWN AND NOT iDownPosSensor THEN
+		qDoorDown := TRUE;
+	ELSE 
+		qDoorUP := FALSE;
+		qDoorDOWN := FALSE;
+	END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="RollerDoor">
+      <LineId Id="108" Count="5" />
+      <LineId Id="115" Count="2" />
+      <LineId Id="119" Count="1" />
+      <LineId Id="122" Count="3" />
+      <LineId Id="141" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

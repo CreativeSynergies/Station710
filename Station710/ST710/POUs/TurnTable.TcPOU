@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="TurnTable" Id="{0c8caac1-1793-446a-9a6b-e8732c18542f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TurnTable
+VAR_INPUT
+	EN   : BOOL;
+	iStartCW    	:  BOOL;    // Clockwise Move Command 
+	iStartCCW   	:  BOOL;    // Counterclockwise Move Command 
+	iFwdPosSensor  	:  BOOL;    // Forward Position sensor 180* feedback
+	iRevPosSensor  	:  BOOL;    // Forward Position sensor 0* feedback
+END_VAR
+VAR_OUTPUT
+	Eno  : BOOL;
+	qMotorRun  :  BOOL ; 	// Motor Run Status
+	qMotorDir  :  BOOL ;    // Motor Direction Status 
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Motor Safety
+IF  iStartCW AND iStartCCW THEN
+	qMotorRun := FALSE;
+	qMotorDir := FALSE;
+END_IF
+
+// TURNTABLE OPERATION
+	IF iStartCW AND NOT iFwdPosSensor THEN
+		qMotorRun := TRUE;
+		qMotorDir := FALSE;
+	ELSIF iStartCCW AND NOT iRevPosSensor THEN
+		qMotorRun := TRUE;
+		qMotorDir := TRUE;
+		ELSE 
+		qMotorRun := FALSE;
+		qMotorDir := FALSE;
+	END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="TurnTable">
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="77" Count="3" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="33" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

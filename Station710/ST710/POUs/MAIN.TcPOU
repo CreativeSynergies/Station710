@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="MAIN" Id="{f4edae46-a55b-4a7f-bfb8-c0711c848216}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	Modules: Module_call;
+	tAlwaysOn: BOOL; //Temporary BIT FOR Always On
+    tAlwaysOff: BOOL; //Temporary BIT FOR Always Off
+END_VAR
+
+VAR CONSTANT
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Always ON Logic
+tAlwaysOn := TRUE;
+
+// Module call
+Modules();
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="18" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="29" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="HomeSequence" Id="{5a6a5d55-439f-4a7f-955c-8529d4bdf1aa}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK HomeSequence
+VAR_INPUT
+	EN :BOOL;
+	iHomeCycleStart :BOOL;
+	iClampOpenGroup1 :BOOL;
+	iClampOpenGroup2 :BOOL;
+	iTT_at_0 : BOOL;
+	iTrunion_at_0 :BOOL;
+	iDoor_Cls : BOOL;
+END_VAR
+VAR_OUTPUT
+	ENO :BOOL;
+	qGroup1ClampOpen :BOOL;
+	qGroup2ClampOpen :BOOL;
+	qTT_0 : BOOL;
+	qTrunion_0 : BOOL;
+	qDoor_Cls : BOOL;
+	qHomeDone : BOOL;
+END_VAR
+VAR
+	StepNo : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE StepNo OF
+	
+0:
+	qHomeDone := FALSE;
+	IF iHomeCycleStart THEN
+	StepNo := 10;
+	END_IF
+
+// All Clamps home
+10:
+	qGroup1ClampOpen := TRUE;
+	qGroup2ClampOpen := TRUE;
+	IF iClampOpenGroup1 AND iClampOpenGroup2 THEN
+		qGroup1ClampOpen := FALSE;
+		qGroup2ClampOpen := FALSE;
+		StepNo := 20;
+	END_IF
+
+// Roller door close
+20:
+	qDoor_Cls := TRUE;
+	IF iDoor_Cls THEN
+		qDoor_Cls := FALSE;
+		StepNo := 30;
+	END_IF
+	
+// Trunion to 0* position
+30:
+	qTrunion_0 := TRUE;
+	IF iTrunion_at_0 THEN
+		qTrunion_0 := FALSE;
+		StepNo := 40;
+	END_IF
+
+// Turn Table to home position
+40:
+	qTT_0 := TRUE;
+	IF iTT_at_0 THEN
+		qTT_0 := FALSE;
+		qHomeDone := TRUE;
+		StepNo := 0;
+	END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="HomeSequence">
+      <LineId Id="9" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="32" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="21" Count="3" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="36" Count="2" />
+      <LineId Id="95" Count="2" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="49" Count="5" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="60" Count="2" />
+      <LineId Id="101" Count="2" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

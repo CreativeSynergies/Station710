@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="Inputs" Id="{55fa10aa-eae5-4f9a-a962-fdc5d874b289}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	Control_Pressure_Sw_In1_BPB1	: BOOL ;
+	Control_Pressure_Sw_In2_BPB1	: BOOL ;
+	Valve_Pos_BGB1					: BOOL ;
+	CC6_Clamp_1_Sensor_HP			: BOOL ;
+	CC6_Clamp_1_Sensor_WP			: BOOL ;
+	CC4_Clamp_3_Sensor_HP			: BOOL ;
+	CC4_Clamp_3_Sensor_WP			: BOOL ;
+	CC4_Clamp_2_Sensor_HP			: BOOL ;
+	CC4_Clamp_2_Sensor_WP			: BOOL ;
+	CC4_Clamp_1_Sensor_HP			: BOOL ;
+	CC4_Clamp_1_Sensor_WP			: BOOL ;
+	CC2_Clamp_3_Sensor_HP			: BOOL ;
+	CC2_Clamp_3_Sensor_WP			: BOOL ;
+	CC3_Clamp_3_Sensor_HP			: BOOL ;
+	CC3_Clamp_3_Sensor_WP			: BOOL ;
+	CC3_Clamp_2_Sensor_HP			: BOOL ;
+	CC3_Clamp_2_Sensor_WP			: BOOL ;
+	CC3_Clamp_1_Sensor_HP			: BOOL ;
+	CC3_Clamp_1_Sensor_WP			: BOOL ;
+	CC1_Clamp_3_Sensor_HP			: BOOL ;
+	CC1_Clamp_3_Sensor_WP			: BOOL ;
+	CC1_Clamp_2_Sensor_HP			: BOOL ;
+	CC1_Clamp_2_Sensor_WP			: BOOL ;
+	CC1_Clamp_1_Sensor_HP			: BOOL ;
+	CC1_Clamp_1_Sensor_WP			: BOOL ;
+	CC2_Clamp_2_Sensor_HP			: BOOL ;
+	CC2_Clamp_2_Sensor_WP			: BOOL ;
+	CC2_Clamp_1_Sensor_HP			: BOOL ;
+	CC2_Clamp_1_Sensor_WP			: BOOL ;
+	CC5_Clamp_1_Sensor_HP			: BOOL ;
+	CC5_Clamp_1_Sensor_WP			: BOOL ;
+	PART_CONTROL_B13				: BOOL ;
+	PART_CONTROL_B27				: BOOL ;
+	PART_CONTROL_B14				: BOOL ;
+	PART_CONTROL_B28				: BOOL ;
+	PART_CONTROL_B12				: BOOL ;
+	PART_CONTROL_B26				: BOOL ;
+	PART_CONTROL_B11				: BOOL ;
+	PART_CONTROL_B25				: BOOL ;
+	PART_CONTROL_B10				: BOOL ;
+	PART_CONTROL_B24				: BOOL ;
+	PART_CONTROL_B7					: BOOL ;
+	PART_CONTROL_B21				: BOOL ;
+	PART_CONTROL_B6					: BOOL ;
+	PART_CONTROL_B20				: BOOL ;
+	PART_CONTROL_B5					: BOOL ;
+	PART_CONTROL_B19				: BOOL ;
+	PART_CONTROL_B4			 		: BOOL ;
+	PART_CONTROL_B18				: BOOL ;
+	PART_CONTROL_B3					: BOOL ;
+	PART_CONTROL_B17				: BOOL ;
+	PART_CONTROL_B2					: BOOL ;
+	PART_CONTROL_B9					: BOOL ;
+	PART_CONTROL_B23				: BOOL ;
+	PART_CONTROL_B8					: BOOL ;
+	PART_CONTROL_B22				: BOOL ;
+	iEMR_Stop_PB					: BOOL ;
+	iControl_On						: BOOL ;
+	iControl_Off					: BOOL ;
+	iAuto_Manual					: BOOL ;
+	iResetFault 					: BOOL ;
+	iCycle_start					:BOOL;
+	iPalm_Button					:BOOL;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
